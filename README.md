@@ -29,7 +29,6 @@ git checkout <nome-branch>
 Branches contidas nesse repo.
 
 * master
-* feature/cap-1
 * feature/cap-2
 * feature/cap-3
 * feature/cap-4
