@@ -3,11 +3,11 @@
  */
 public class Pedido {
     
-    public Decimal total;
+    private Decimal total;
 
-    public Decimal totalLiquido;
+    private Decimal totalLiquido;
 
-    public List<ItemPedido> items;
+    private List<ItemPedido> items;
     
     // construtor omitido
 
@@ -15,9 +15,18 @@ public class Pedido {
     
         this.items.add(item);
 
-        this.total += item.total;
-        this.totalLiquido += item.totalLiquido;
+        this.total += item.getTotal();
+        this.totalLiquido += item.getTotalLiquido();
 
-    }    
+    }
+
+    public Decimal getTotal () {
+        return this.total;   
+    }
     
+    public Decimal getTotalLiquido () {
+        return this.totalLiquido;   
+    }
+
+
 }
