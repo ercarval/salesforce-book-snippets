@@ -8,6 +8,8 @@ public class Pedido {
     private Decimal totalLiquido;
 
     private List<ItemPedido> items;
+
+    String tipoPedido;
     
     // construtor omitido
 
@@ -28,5 +30,17 @@ public class Pedido {
         return this.totalLiquido;   
     }
 
+
+    public Decimal calculaValorTaxa () {
+            
+        if (tipoPedido == 'SERVIÇO') {
+            return 0.2;
+        } else if ( tipoPedido == 'VENDA PADRÃO' ) {
+            return 0.1;
+        } 
+    
+        return 0;
+        
+    }
 
 }

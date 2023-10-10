@@ -1,0 +1,3 @@
+SELECT Id, ContractNumber, AccountId , Account.Name, Account.BillingAdddress
+FROM Contract
+WHERE Account.Name = 'Edge Communications'
