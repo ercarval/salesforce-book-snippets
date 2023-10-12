@@ -1,0 +1,3 @@
+SELECT Id, Name, BillingStreet, BillingState, BillingCity
+FROM Account
+WHERE BillingState = 'CA'

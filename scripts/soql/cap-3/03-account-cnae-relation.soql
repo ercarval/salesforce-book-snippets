@@ -1,0 +1,8 @@
+SELECT Id
+    , Name
+    , BillingStreet
+    , BillingCity__r.Name__c
+    , CNAE__r.Description__c
+    , CNAE__r.Code__c 
+FROM Account
+WHERE Name = 'Edge Communications'

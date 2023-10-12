@@ -1,0 +1,6 @@
+SELECT Id
+    , Name, Code__c
+    , ( SELECT Id
+            , Name 
+        FROM Accounts__r )
+FROM Advisor__c

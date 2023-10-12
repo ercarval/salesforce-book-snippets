@@ -1,0 +1,8 @@
+SELECT Id, Name
+    , ( SELECT Id
+            , ContractNumber
+            , StartDate
+            , EndDate 
+        FROM Contracts )
+FROM Account
+WHERE Name = 'Edge Communications'
