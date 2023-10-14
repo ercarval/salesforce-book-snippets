@@ -81,6 +81,27 @@ public class PersonDocumentValidatorTest {
         Assert.isFalse( validator.isCpf( cpf ) 
                 , 'CPF 9111.444.777-11 NAO é valido' );
 
-    }    
+    }
+
+    @isTest                     
+    public static void shouldRejectSameDigits () {
+
+        PersonDocumentValidator validator 
+                        = new PersonDocumentValidator();
+        
+        String cpf = '###.###.###-##';
+                
+        for (Integer i = 0; i < 10; i++) {
+                                    
+            Boolean result 
+                    = validator.isCpf(
+                            cpf.replaceAll('#', i + ''));
+                    
+            Assert.isFalse ( result 
+                        , 'CPF é Inválido' ); 
+
+        }     
+
+    }        
 
 }
