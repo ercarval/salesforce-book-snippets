@@ -56,6 +56,7 @@ public class PersonDocumentValidator {
         return Integer.valueOf( values.get(position) );
     }
 
+    @TestVisible
     Integer calculateDigit( List<String> cpf, Integer weight, Integer iteration ) {
         
         Integer sum = 0;

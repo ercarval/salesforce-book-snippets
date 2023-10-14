@@ -104,4 +104,52 @@ public class PersonDocumentValidatorTest {
 
     }        
 
+    @isTest
+    static void shouldCalculateFirstCPFDigit () {
+
+        PersonDocumentValidator validator 
+                        = new PersonDocumentValidator();
+        
+        String cpf = '11144477735';
+                
+        List<String> digits = cpf.split('');
+
+        Integer digit = validator.calculateDigit( digits, 10, 9 ); 
+        
+        Assert.areEqual ( 3 , digit );
+
+    }
+
+    @isTest
+    static void shouldCalculateSecondCPFDigit () {
+
+        PersonDocumentValidator validator 
+                        = new PersonDocumentValidator();
+        
+        String cpf = '11144477735';
+                
+        List<String> digits = cpf.split('');
+
+        Integer digit = validator.calculateDigit( digits, 11, 10 ); 
+        
+        Assert.areEqual ( 5 , digit );
+
+    }
+
+
+    @isTest
+    static void shouldCalculateCPFDigitWithZeroRest () {
+
+        PersonDocumentValidator validator 
+                        = new PersonDocumentValidator();
+        
+        String cpf = '86989551003';
+                
+        List<String> digits = cpf.split('');
+
+        Integer digit = validator.calculateDigit( digits, 10, 9 ); 
+        
+        Assert.areEqual ( 0 , digit );
+
+    }
 }
