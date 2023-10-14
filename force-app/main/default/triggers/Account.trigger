@@ -2,7 +2,8 @@
  * @author eduardo.bisso
  */
 trigger Account on Account (before insert
-                          , before update) {
+                          , before update
+                          , after insert) {
     
     // determina quais registros foram atualizados.
     // coleção sempre no plural. 

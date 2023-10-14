@@ -62,44 +62,11 @@ public class BrazilianDocumentValidator {
 
     }
 
-    public boolean isCPF( String cpf ) {
+    public Boolean isCPF( String cpf ) {
 
-        if ( Pattern.matches('^(\\d)\\1*$', cpf) || cpf.length() != 11) {
-            return false;
-        }
+        return new PersonDocumentValidator().isCPF(cpf);
 
-        List<String> cpfString = cpf.split('');
-
-        Integer digit10 = calculateDigitCPF( cpfString, 10, 9 );
-        Integer digit11 = calculateDigitCPF( cpfString, 11, 10 );
-
-        return ( digit10 == Integer.valueOf( cpfString.get(9) ) ) && ( digit11 == Integer.ValueOf( cpfString.get(10) ) );
     }
 
-    private Integer calculateDigitCPF( List<String> cpf, Integer weight, Integer iteration ) {
-        
-        Integer sum = 0;
-        Integer rest;
-        Integer num;
-        Integer digit;
-        
-        for ( Integer i = 0; i < iteration; i++ ) {
-
-            num = Integer.valueOf( cpf.get(i) ); 
-            sum += ( num * weight );
-            weight--;
-
-        }
-
-        rest = 11 - ( Math.mod( sum, 11 ) );
-
-        if ( rest == 10 || rest == 11 ) {
-            digit = 0;
-        } else {
-            digit = rest;
-        }
-
-        return digit;
-    }
 
 }
