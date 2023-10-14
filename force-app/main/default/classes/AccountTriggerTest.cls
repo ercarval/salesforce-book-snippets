@@ -36,6 +36,33 @@ public class AccountTriggerTest {
     }
 
 
+    @isTest                     
+    public static void shouldGenerateErrorWhenTryToCreateAnAccountWithInvalidDocument () {
+        
+        //dado (given)
+        Account expectedAccount = new Account(Name = 'Teste',
+                            DocumentNumber__c = '111.444.777-95');
+        
+        try { // <--- tenta executar o bloco de código
+        
+            // quando (when)
+            insert expectedAccount; // aqui deve gerar um erro
 
+            Assert.fail('Não deveria criar a conta com CPF inválido');
+
+        } catch (DmlException e) { // se for gerado esse tipo de erro
+                                // executa o bloco de código
+
+            System.debug(e.getDmlMessage(0));
+            
+            //verifica se o erro é de Documento Invalido.
+            Assert.isTrue ( 
+                    e.getDmlMessage(0)
+                        .contains('Documento Inválido') );           
+                                    
+        }
+
+
+    }
 
 }
