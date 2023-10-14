@@ -65,4 +65,25 @@ public class AccountTriggerTest {
 
     }
 
+    @isTest                     
+    public static void shouldUpdateAccountWithValidDocument () {
+        
+        //dado (given)
+        Account expectedAccount = new Account(Name = 'Teste',
+                            DocumentNumber__c = '111.444.777-35');    
+            
+        insert expectedAccount;
+
+        expectedAccount.DocumentNumber__c = '023.544.756-08';
+        
+        // quando (when)
+        update expectedAccount;
+
+        // então (then)
+        System.assertEquals ( '023.544.756-08'
+                    , expectedAccount.DocumentNumber__c );
+    }
+
+
+
 }
