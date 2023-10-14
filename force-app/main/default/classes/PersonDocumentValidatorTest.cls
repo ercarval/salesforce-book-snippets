@@ -152,4 +152,27 @@ public class PersonDocumentValidatorTest {
         Assert.areEqual ( 0 , digit );
 
     }
+
+    @isTest                     
+    public static void shouldAcceptValidCpfNumber () {
+
+        PersonDocumentValidator validator 
+                    = new PersonDocumentValidator();
+        
+        String cpf = '331.099.440-65';
+                
+        Boolean result = validator.isCpf(cpf);
+            
+        Assert.isTrue( result 
+                , 'CPF 331.099.440-65 é um CPF valido' );
+
+        cpf = '221.935.320-60';
+                
+        result = validator.isCpf(cpf);
+            
+        Assert.isTrue( result 
+                , 'CPF 221.935.320-60 é um CPF valido' );
+
+
+    }    
 }
