@@ -30,6 +30,7 @@ public class PersonDocumentValidator {
                 && ( digit11 == toInt( digits, 10 ) );
     }
 
+    @TestVisible
     String removeMaskChars (String value) {
         return value.replaceAll ( '\\.|-', '' );
     }

@@ -4,6 +4,7 @@
 @isTest
 public class PersonDocumentValidatorTest {
 
+    // Deve retornar false para CPF null ou vazio
     @isTest                     
     public static void shouldReturnFalseForNullOrEmptyCpf () {
         
@@ -24,4 +25,22 @@ public class PersonDocumentValidatorTest {
         
 
     }
+
+    // Deve remover caracteres de mascara (###.###.###-##)
+    @isTest                     
+    public static void shouldRemoveMaskChars () {
+
+        PersonDocumentValidator validator = new PersonDocumentValidator();
+                
+        String result = validator.removeMaskChars('XXX.XXX-AAA');
+        
+        Assert.areEqual ( 'XXXXXXAAA' , result  );
+        
+        // Caractere "/" inválido não será removido
+        result = validator.removeMaskChars('111/ZZZ-XX');    
+        
+        Assert.areEqual ( '111/ZZZXX' , result ); 
+
+    }
+
 }
