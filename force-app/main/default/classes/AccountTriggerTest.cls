@@ -84,6 +84,33 @@ public class AccountTriggerTest {
                     , expectedAccount.DocumentNumber__c );
     }
 
+    @isTest                     
+    public static void shouldGenerateErrorWhenTryToUpdateAnAccountWithInvalidDocument () {
+        
+        //dado (given)
+        Account expectedAccount = new Account(Name = 'Teste',
+                            DocumentNumber__c = '111.444.777-35');
+        
+        insert expectedAccount; // aqui deve gerar um erro
+            
+        expectedAccount.DocumentNumber__c = '111.444.777-95';
+        
 
+        try { // <--- tenta executar o bloco de código
+        
+            // quando (when)
+            update expectedAccount;        
+                
+            Assert.fail ('Não deveria atualizar a conta com CPF inválido'); 
+
+        } catch (DmlException e) { //se for gerado esse tipo de erro
+                                // executa o bloco de código            
+                    
+            // vamos verificar se o erro de fato é de Documento Invalido.
+            Assert.isTrue( e.getDmlMessage(0).contains('Documento Inválido') );           
+                                    
+        }
+                            
+    }
 
 }
