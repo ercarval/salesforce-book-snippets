@@ -63,4 +63,24 @@ public class PersonDocumentValidatorTest {
 
     }    
 
+    @isTest                     
+    public static void shouldReturnInvalidLengthForCpf () {
+
+        PersonDocumentValidator validator 
+                    = new PersonDocumentValidator();
+        
+        String cpf = '111.444.777-111';
+                
+        Boolean result = validator.isCpf(cpf);
+            
+        Assert.isFalse( result 
+                , 'CPF 111.444.777-111 NAO é valido' );
+        
+        cpf = '9111.444.777-11';
+
+        Assert.isFalse( validator.isCpf( cpf ) 
+                , 'CPF 9111.444.777-11 NAO é valido' );
+
+    }    
+
 }
