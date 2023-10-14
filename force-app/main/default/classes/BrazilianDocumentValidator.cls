@@ -7,6 +7,8 @@ public class BrazilianDocumentValidator {
     }
 
     public Boolean isCNPJ( String cnpj ) {
+
+        cnpj = keepNumeric(cnpj);
         
         if ( !matchSameNumbersRule (cnpj) || ( cnpj.length() != 14 )) {
             return false;
@@ -33,6 +35,13 @@ public class BrazilianDocumentValidator {
 
         return true;
 
+    }
+
+    private String keepNumeric (String value) {
+
+        if (String.isEmpty(value)) return value;
+
+        return value.replaceAll('[^0-9]', '');
     }
 
     /**
