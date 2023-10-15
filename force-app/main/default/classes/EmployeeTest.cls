@@ -32,13 +32,19 @@ public class EmployeeTest {
         
         Assert.areEqual ( 80000, directorBonus );
 
-        Employee employee = new Employee();
+        // Classes abstratas não podem ser instanciadas
 
-        employee.salary = 10000;
+        //Employee employee = new Employee();
+        //employee.salary = 10000;
+        //Decimal employeeBonus = employee.getBonus(); 
+        //System.assertEquals (0, employeeBonus );
 
-        Decimal employeeBonus = employee.getBonus(); 
-
-        System.assertEquals (0, employeeBonus );
+        
+        LatamVicePresident vp = new LatamVicePresident();
+        vp.salary = 80000;
+        Decimal vpBonus = vp.getBonus();  
+        
+        Assert.areEqual ( 800000, vpBonus );
 
     }
 

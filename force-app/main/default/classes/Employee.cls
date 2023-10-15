@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public virtual class Employee {
+public abstract class Employee {
 
     public String code;
 
@@ -11,9 +11,7 @@ public virtual class Employee {
 
     public Decimal salary;
 
-    virtual
-    public Decimal getBonus () {
-        return 0;
-    }
+    abstract
+    public Decimal getBonus ();
 
 }
