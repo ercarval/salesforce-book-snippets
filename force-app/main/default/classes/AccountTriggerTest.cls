@@ -8,8 +8,7 @@ public class AccountTriggerTest {
     public static void shouldCreateAccountWithValidDocumentAndCreateTask () {
         
         //dado (given)
-        Account expectedAccount = new Account(Name = 'Teste',
-                                                DocumentNumber__c = '111.444.777-35');
+        Account expectedAccount = AccountFixtureFactory.create ('Teste', '111.444.777-35');
         
         // quando (when)
         insert expectedAccount;
@@ -40,21 +39,18 @@ public class AccountTriggerTest {
     public static void shouldGenerateErrorWhenTryToCreateAnAccountWithInvalidDocument () {
         
         //dado (given)
-        Account expectedAccount = new Account(Name = 'Teste',
-                            DocumentNumber__c = '111.444.777-95');
+        Account expectedAccount = AccountFixtureFactory.newAccount ('Teste', '111.444.777-35');
         
         try { // <--- tenta executar o bloco de código
         
             // quando (when)
-            insert expectedAccount; // aqui deve gerar um erro
+            AccountFixtureFactory.create(expectedAccount); // aqui deve gerar um erro
 
             Assert.fail('Não deveria criar a conta com CPF inválido');
 
         } catch (DmlException e) { // se for gerado esse tipo de erro
                                 // executa o bloco de código
 
-            System.debug(e.getDmlMessage(0));
-            
             //verifica se o erro é de Documento Invalido.
             Assert.isTrue ( 
                     e.getDmlMessage(0)
@@ -69,11 +65,8 @@ public class AccountTriggerTest {
     public static void shouldUpdateAccountWithValidDocument () {
         
         //dado (given)
-        Account expectedAccount = new Account(Name = 'Teste',
-                            DocumentNumber__c = '111.444.777-35');    
+        Account expectedAccount = AccountFixtureFactory.create ('Teste', '111.444.777-35');   
             
-        insert expectedAccount;
-
         expectedAccount.DocumentNumber__c = '023.544.756-08';
         
         // quando (when)
@@ -88,10 +81,7 @@ public class AccountTriggerTest {
     public static void shouldGenerateErrorWhenTryToUpdateAnAccountWithInvalidDocument () {
         
         //dado (given)
-        Account expectedAccount = new Account(Name = 'Teste',
-                            DocumentNumber__c = '111.444.777-35');
-        
-        insert expectedAccount; // aqui deve gerar um erro
+        Account expectedAccount = AccountFixtureFactory.create ('Teste', '111.444.777-35'); 
             
         expectedAccount.DocumentNumber__c = '111.444.777-95';
         
