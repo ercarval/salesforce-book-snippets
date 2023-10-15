@@ -6,7 +6,10 @@ trigger Contract on Contract (after update) {
     // determina quais registros foram atualizados.
     // coleção sempre no plural. 
     List<Contract> newContracts = Trigger.new;
+    
     Map<Id, Contract> oldContracts = Trigger.oldMap;
+
+    ContractRepository contractRepository = new ContractRepository();
 
     //Identifica qual o evento/operação foi executada.
     switch on Trigger.operationType {
@@ -48,10 +51,7 @@ trigger Contract on Contract (after update) {
                 
                 
                 // consulta os contratos originais para desativação    
-                List<Contract> originalContracts = 
-                                [ SELECT Id, Status
-                                    FROM Contract
-                                    WHERE Id IN: originalContractIds ];
+                List<Contract> originalContracts = contractRepository.findByIds(originalContractIds);
             
                 // determina a relação do contrato original 
                 // com o contrato assinado
@@ -74,7 +74,7 @@ trigger Contract on Contract (after update) {
                 
                     }
                 
-                    update originalContracts;
+                    contractRepository.save (originalContracts);
                 
                 }
 
