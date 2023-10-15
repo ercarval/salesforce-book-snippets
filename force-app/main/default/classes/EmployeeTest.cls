@@ -32,6 +32,14 @@ public class EmployeeTest {
         
         Assert.areEqual ( 80000, directorBonus );
 
+        Employee employee = new Employee();
+
+        employee.salary = 10000;
+
+        Decimal employeeBonus = employee.getBonus(); 
+
+        System.assertEquals (0, employeeBonus );
+
     }
 
 }
