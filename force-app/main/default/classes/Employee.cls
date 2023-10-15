@@ -11,6 +11,15 @@ public abstract class Employee {
 
     public Decimal salary;
 
+    public Employee () {
+
+    }
+
+    public Employee (Decimal salary) {
+        this();
+        this.salary = salary;
+    }
+
     abstract
     public Decimal getBonus ();
 
