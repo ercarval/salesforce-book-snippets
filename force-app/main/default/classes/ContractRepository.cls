@@ -28,4 +28,24 @@ public class ContractRepository {
 
     }
     
+
+    public Contract save ( Contract contract ) {
+
+        upsert contract;
+
+        return contract;
+
+    }
+
+    public List<Contract> save ( List<Contract> contracts, Schema.SObjectField field ) {
+
+        //O comando abaixo gera o erro : Invalid field for upsert, must be an External Id custom or standard indexed field 
+        //upsert contracts field; 
+
+        Database.upsert( contracts, field );
+
+        return contracts;
+
+    }
+
 }
