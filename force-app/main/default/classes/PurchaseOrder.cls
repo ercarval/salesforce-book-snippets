@@ -16,6 +16,18 @@ public class PurchaseOrder {
         this.items = new List<Item>();
     }
 
+
+    public PurchaseOrder (Account account) {
+        this();
+        this.account = account;
+    }
+
+    public PurchaseOrder (Account account, Address billingAddress) {
+        this(account);
+        this.billingAddress = billingAddress;
+    }
+
+
     public class Address {
         public String street;
         public String addressNumber;
