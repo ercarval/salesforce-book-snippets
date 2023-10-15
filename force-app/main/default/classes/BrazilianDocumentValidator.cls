@@ -2,80 +2,17 @@ public class BrazilianDocumentValidator {
 
     public Boolean isValid ( String documentNumber ) {
 
-        return isCPF(documentNumber) || isCNPJ(documentNumber);
+        return isCPF(documentNumber) 
+                || isCNPJ(documentNumber);
 
     }
 
     public Boolean isCNPJ( String cnpj ) {
-
-        cnpj = keepNumeric(cnpj);
-        
-        if ( !matchSameNumbersRule (cnpj) || ( cnpj.length() != 14 )) {
-            return false;
-        }
-        
-        List<String> cnpjString = cnpj.split('');
-
-        Integer digit13 = calculateDigitCNPJ( cnpjString, 5, 12 );
-        Integer digit14 = calculateDigitCNPJ( cnpjString, 6, 13 );
-
-        if ( digit13 != Integer.valueOf( cnpjString.get(12) ) || digit14 != Integer.valueOf( cnpjString.get(13) ) ) return false;
-
-        return true;
-
-    }
-
-    private Boolean matchSameNumbersRule (String cnpj) {
-
-        for (Integer i = 0; i < 10; i++) {
-            if ( cnpj.countMatches( '' + i ) == cnpj.length() ) {
-                return false;
-            }
-        }
-
-        return true;
-
-    }
-
-    private String keepNumeric (String value) {
-
-        if (String.isEmpty(value)) return value;
-
-        return value.replaceAll('[^0-9]', '');
-    }
-
-    /**
-     * MOVE THIS METHOD TO another class.
-     */
-    private Integer calculateDigitCNPJ( List<String> cnpj, Integer weight, Integer iteration ) {
-
-        Integer sum = 0;
-        Integer rest;
-        Integer num;
-
-        for ( Integer i = 0; i < iteration; i++) {
-
-            num = Integer.valueOf( cnpj.get(i) );
-            sum += (num * weight);
-            weight--;
-
-            if ( weight < 2 ) weight = 9;
-
-        }
-
-        rest = Math.mod( sum, 11 );
-
-        if ( rest < 2 ) return 0;
-
-        return Integer.valueOf( 11 - rest );
-
+        return new CompanyDocumentValidator().isCNPJ(cnpj);        
     }
 
     public Boolean isCPF( String cpf ) {
-
         return new PersonDocumentValidator().isCPF(cpf);
-
     }
-
 
 }

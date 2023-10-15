@@ -15,5 +15,6 @@
         "Poupanca",
         "SOQL",
         "struture"
-    ]
+    ],
+    "salesforcedx-vscode-core.show-cli-success-msg": false
 }
