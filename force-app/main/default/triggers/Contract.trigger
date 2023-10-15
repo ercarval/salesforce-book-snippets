@@ -11,55 +11,29 @@ trigger Contract on Contract (after update) {
 
     ContractRepository contractRepository = new ContractRepository();
 
+    ContractFilter filter = new ContractFilter ();
+
     //Identifica qual o evento/operação foi executada.
     switch on Trigger.operationType {
     
         when AFTER_UPDATE {
 
-            List<Contract> amendmentContracts = new List<Contract> ();
-
-            // Determina quais são os contratos 
-            // que foram alterados para Assinado
-            for ( Contract contract : newContracts ) {
-                
-                Contract oldContract = oldContracts.get ( contract.Id );    
-                
-                // avalia se o status do contrato mudou para Assinado
-                // e possui um contrato anterior
-                if ( contract.Status == 'Assinado'
-                    && oldContract.Status != 'Assinado'
-                    && contract.OriginalContract__c != null ) {
-                    
-                    amendmentContracts.add ( contract );
-                
-                }    
-            
-            }
-            
-            
+            List<Contract> amendmentContracts =  filter.byChangedToAssignedStatus ( newContracts
+                                                                                  , oldContracts );
+           
             if ( !amendmentContracts.isEmpty() ) {
 
-                // obtém os contratos originais com base nos ids
-                List<String> originalContractIds = new List<String> ();
-            
-                for (Contract contract : amendmentContracts) {
-                    
-                    originalContractIds.add ( 
-                                contract.OriginalContract__c );
-                
-                }
-                
-                
                 // consulta os contratos originais para desativação    
-                List<Contract> originalContracts = contractRepository.findByIds(originalContractIds);
+                List<Contract> originalContracts = contractRepository.findByIds(  
+                                                         filter.extractOriginalContractIds (amendmentContracts )
+                                                   );
             
                 // determina a relação do contrato original 
                 // com o contrato assinado
                 
                 if ( !originalContracts.isEmpty() ) {
                     
-                    Map<Id, Contract> indexedOriginalContracts = 
-                                    new Map<Id, Contract>(originalContracts);
+                    Map<Id, Contract> indexedOriginalContracts = filter.indexById(originalContracts);                                    
                 
                     // determina o contrato original com base 
                     // no novo contrato assinado e
