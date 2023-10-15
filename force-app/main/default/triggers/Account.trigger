@@ -11,6 +11,8 @@ trigger Account on Account (before insert
 
     AccountValidator validator = new AccountValidator ();
 
+    AccountEventEnricher enricher = new AccountEventEnricher ();
+
     //Identifica qual o evento/operação foi executada.
     switch on Trigger.operationType {
     
@@ -23,23 +25,7 @@ trigger Account on Account (before insert
 
         when AFTER_INSERT {
                 
-                List<Task> tasks = new List<Task>();
-                        
-                for ( Account account : newAccounts ) {
-                    
-                    Task task = new Task();
-    
-                    task.Subject = 'Lembre-se de entrar em contato com o Cliente ' + account.Name;
-    
-                    task.Description = 'Entrar em contato para agendar a primeira reunião';
-    
-                    task.ActivityDate = Date.today().addDays(1);
-                    task.WhatId = account.Id;
-                    tasks.add (task);
-    
-                }
-            
-                insert tasks;
+            enricher.scheduleFirstAdvisorMeeting(newAccounts);
         
         }
     
