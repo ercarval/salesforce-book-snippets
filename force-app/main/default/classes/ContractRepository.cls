@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public class ContractRepository {
+public class ContractRepository extends AbstractRepository {
     
     public List<Contract> findByIds ( List<String> ids ) {
         
@@ -18,6 +18,15 @@ public class ContractRepository {
                  WHERE AccountId = :accountId
                     AND Status = :status ];
         
+    }
+
+    public List<AggregateResult> findTotalOfPendingContracts ( List<String> accountIds ) {
+
+        return [ SELECT COUNT (Id) total, AccountId 
+                FROM Contract 
+                WHERE AccountId IN :accountIds 
+                AND Status NOT IN ( 'Assinado', 'Inativado' )
+                GROUP BY AccountId];   
     }
 
     public List<Contract> save (List<Contract> contracts) {

@@ -13,6 +13,8 @@ public with sharing class ContractTriggerHandler extends TriggerHandler {
 
     InactivateOriginalContractEnricher inactivateOriginalContract;
 
+    AccountContractEnricher accountEnricher;
+
     public ContractTriggerHandler() {
         this (  (List<Contract> ) Trigger.new
             , (Map<Id, Contract>) Trigger.oldMap );
@@ -29,12 +31,20 @@ public with sharing class ContractTriggerHandler extends TriggerHandler {
         this.filter = new ContractFilter ();
     
         this.inactivateOriginalContract = new InactivateOriginalContractEnricher();
+
+        this.accountEnricher = new AccountContractEnricher();
                                    
+    }
+
+    override
+    public void afterInsert() {
+        enrichWithPendingContracts ();
     }
 
     override
     public void afterUpdate() {
         inactivateOldContracts ();
+        enrichWithPendingContracts();
     }
 
     private void inactivateOldContracts () {
@@ -43,6 +53,13 @@ public with sharing class ContractTriggerHandler extends TriggerHandler {
                                                                              , oldContracts );
     
         inactivateOriginalContract.inactivatedBy ( amendmentContracts );
+
+    }
+
+    private void enrichWithPendingContracts () {
+        
+        accountEnricher.enrichWithTotalPendingContracts(
+                                            newContracts );      
 
     }
 
