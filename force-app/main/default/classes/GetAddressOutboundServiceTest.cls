@@ -7,16 +7,7 @@ public class GetAddressOutboundServiceTest {
     @isTest
     static void givenValidZipCodeWhenFindAddressThenReturnCompleteAddress () {
         
-        String expectedPayload = '{ "cep": "01001-000", '
-                                + ' "logradouro": "Praça da Sé",'
-                                + ' "complemento": "lado ímpar",'
-                                + ' "bairro": "Sé",'
-                                + ' "localidade": "São Paulo",'
-                                + ' "uf": "SP",'
-                                + ' "ibge": "3550308",'
-                                + ' "gia": "1004",'
-                                + ' "ddd": "11",'
-                                + ' "siafi": "7107"}';
+        String expectedPayload = GetAddressOutboundFixtureFactory.defaultSuccessPayload();
 
         Test.setMock ( HttpCalloutMock.class, new GetAddressOutboundServiceMock (expectedPayload) );
 
