@@ -21,4 +21,19 @@ public class GetAddressOutboundServiceTest {
 
     }
 
+    @isTest 
+    static void givenInvalidZipCodeWhenFindAddressThenReturnNull () {
+
+        String expectedPayload = '{}';
+            
+        Test.setMock ( HttpCalloutMock.class , new GetAddressOutboundServiceMock (expectedPayload, 404) );
+
+        GetAddressOutboundService service = new GetAddressOutboundService();
+
+        ViaCepAddressResponse addressResponse = service.findAddressByZipCode ('10010');   
+
+        System.assert( addressResponse == null, 'Esperado um endereço nulo');
+
+    }
+
 }
