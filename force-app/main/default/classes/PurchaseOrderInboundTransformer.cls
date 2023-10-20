@@ -35,5 +35,11 @@ public class PurchaseOrderInboundTransformer {
         return order;
     }
 
+    public List<OrderItem> toOrderItems (PurchaseOrderInboundRequest purchaseOrder) {
+
+        List<OrderItem> items = new List<OrderItem>();
+
+        return items;
+    }
 
 }

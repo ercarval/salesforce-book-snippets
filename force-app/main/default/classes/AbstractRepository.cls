@@ -22,6 +22,26 @@ public abstract class AbstractRepository {
         return records;
     }
 
+    virtual 
+    public  SObject save ( SObject record, Schema.SObjectField field ) {
+
+        save(new List<SObject> {record}, field);
+
+        return record;
+    }
+
+    virtual 
+    public  List<SObject> save ( List<SObject> records, Schema.SObjectField field ) {
+
+        if (records == null || records.isEmpty()) { 
+            return new List<SObject>();
+        }
+
+        Database.upsert(records, field);
+
+        return records;
+    }
+
     virtual
     public void remove ( SObject record ) {
 
@@ -35,6 +55,9 @@ public abstract class AbstractRepository {
         delete records;    
     
     }
+
+
+
 
 
 }

@@ -11,14 +11,18 @@ global class OrderController {
 
         Order order = transformer.toOrder(purchaseOrder);
 
-        List<OrderLineItem> orderLineItem = transformer.toOrderItems( purchaseOrder );
+        List<OrderItem> orderItems = transformer.toOrderItems( purchaseOrder );
 
         OrderRepository orderRepository = new OrderRepository();
 
-        OrderLineItemRepository orderLineItemRepository = new OrderLineItemRepository();
+        OrderItemRepository orderItemRepository = new OrderItemRepository();
 
-        orderRepository.save ( order ); 
-        orderLineItemRepository.save ( orderLineItem ); 
+        Schema.SObjectField ORDER_EXTERNAL_ID = Schema.Order.ErpCode__c.getDescribe().getSObjectField();
+
+
+        orderRepository.save ( order , ORDER_EXTERNAL_ID ); 
+
+        orderItemRepository.save ( order, orderItems ); 
 
         return new PurchaseOrderInboundResponse(order.Id);
 
