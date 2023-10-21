@@ -92,4 +92,39 @@ public class PurchaseOrderInboundTransformer {
         
     }
 
+    public IntegrationLog__c toLog ( PurchaseOrderInboundRequest purchaseOrder  ) {
+
+        return new IntegrationLog__c (
+            Event__c = 'PURCHASE_ORDER_INBOUND',
+            InternalId__c = purchaseOrder.purchaseOrderNumber,
+            Status__c = 'SUCCESS'
+        );
+    }
+
+
+    public IntegrationLog__c toLog ( PurchaseOrderInboundRequest purchaseOrder 
+                                    , DmlException dmlException ) {
+
+        return new IntegrationLog__c (
+            Event__c = 'PURCHASE_ORDER_INBOUND',
+            InternalId__c = purchaseOrder.purchaseOrderNumber,
+            Status__c = 'ERROR',
+            StatusMessage__c = dmlException.getDmlMessage(0), 
+            Message__c = dmlException.getStackTraceString()
+        );
+    }
+
+
+    public IntegrationLog__c toLog ( PurchaseOrderInboundRequest purchaseOrder 
+                                    , Exception ex ) {
+
+        return new IntegrationLog__c (
+            Event__c = 'PURCHASE_ORDER_INBOUND',
+            InternalId__c = purchaseOrder.purchaseOrderNumber,
+            Status__c = 'ERROR',
+            StatusMessage__c = ex.getMessage(), 
+            Message__c = ex.getStackTraceString()
+        );
+    }
+
 }

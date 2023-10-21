@@ -18,6 +18,5 @@ global class OrderController {
         return orderInboundService.save(purchaseOrder);
 
     }
-    
 
 }

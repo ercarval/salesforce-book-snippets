@@ -6,7 +6,7 @@ public class OrderInboundService {
     OrderRepository orderRepository;
     OrderItemRepository orderItemRepository;
     OrderSubItemRepository orderSubItemRepository;
-
+    IntegrationLogRepository integrationLogRepository;
     PurchaseOrderInboundTransformer transformer;
 
     public OrderInboundService () {
@@ -17,27 +17,73 @@ public class OrderInboundService {
 
         this.orderItemRepository = new OrderItemRepository();
 
-        this.orderSubItemRepository 
-                                 = new OrderSubItemRepository();
+        this.orderSubItemRepository = new OrderSubItemRepository();
+
+        this.integrationLogRepository = new integrationLogRepository();
     }
 
 
-    public PurchaseOrderInboundResponse save ( 
-                    PurchaseOrderInboundRequest purchaseOrder ) {
-    
+    public PurchaseOrderInboundResponse save ( PurchaseOrderInboundRequest purchaseOrder ) {
 
-        Order order = transformer.toOrder(purchaseOrder);
+        Order order;
 
-        List<OrderItem> orderItems =  transformer.toOrderItems( purchaseOrder );
+        try {
 
-        List<OrderSubItem__c> orderSubItems = transformer.toOrderSubItems( purchaseOrder );
+            order = transformer.toOrder(purchaseOrder);
 
-        this.orderRepository.save(order);
-        this.orderItemRepository.save (orderItems);
-        this.orderSubItemRepository.save (orderSubItems);
+            List<OrderItem> orderItems = transformer.toOrderItems( purchaseOrder );
+
+            List<OrderSubItem__c> orderSubItems = transformer.toOrderSubItems( purchaseOrder );
+
+            this.orderRepository.save(order);
+            this.orderItemRepository.save (orderItems);
+            this.orderSubItemRepository.save (orderSubItems);
+            
+            log (purchaseOrder);    
+                
+        } catch (DmlException e) {
+            
+            log (purchaseOrder, e);  
+
+            throw e;
+            
+        } catch (Exception e) {        
+
+            log (purchaseOrder, e);  
+
+            throw e;
+
+        }
 
         return new PurchaseOrderInboundResponse( order.Id );    
+
+    }
+
+    void log ( PurchaseOrderInboundRequest purchaseOrder ) {
         
+        IntegrationLog__c log = transformer.toLog (purchaseOrder);
+
+        this.integrationLogRepository.save (log);
+
+    }
+
+    void log ( PurchaseOrderInboundRequest purchaseOrder,
+                    DmlException dmlException ) {
+        
+        IntegrationLog__c log = transformer.toLog ( purchaseOrder , 
+                                                dmlException );
+
+        this.integrationLogRepository.save (log);
+
+
+    }
+
+    void log ( PurchaseOrderInboundRequest purchaseOrder, Exception ex ) {
+
+        IntegrationLog__c log = transformer.toLog ( purchaseOrder , ex );
+
+        this.integrationLogRepository.save (log);
+
     }
 
 }
