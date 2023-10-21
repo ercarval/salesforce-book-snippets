@@ -14,39 +14,24 @@ global class OrderController {
     @HttpPost
     global static void create ( PurchaseOrderInboundRequest purchaseOrder ) {
         
-        RestResponse response = RestContext.response;    
-    
-        response.statusCode = 200;    
-        response.headers.put('Content-Type', 'application/json');
-           
-        String responsePayload;    
-    
+        RestResponseBuilder responseBuilder = new RestResponseBuilder(RestContext.response);    
+
         try {
                 
-            PurchaseOrderInboundResponse purchaseOrderResponse;
-    
-            purchaseOrderResponse = orderInboundService.save(purchaseOrder);
+            PurchaseOrderInboundResponse purchaseOrderResponse = orderInboundService.save(purchaseOrder);
                         
-            responsePayload = purchaseOrderResponse.toJson();
-    
+            responseBuilder.withBody(purchaseOrderResponse);
+
         } catch (DmlException e) { 
-        
-            response.statusCode = 400;
-    
-            responsePayload = '{ "error" : "' + e.getDmlMessage(0) + '" }';
-    
-        } catch (Exception e) {
-    
-            response.statusCode = 400;
-    
-            responsePayload = '{ "error" : "' + e.getMessage() + '" }';
-    
-        } finally {
-    
-            response.responseBody = Blob.valueOf(responsePayload);
             
+            responseBuilder.withError(e);
+            
+        } catch (Exception e) {
+
+            responseBuilder.withError(e);
+
         }
-    
+
     }
 
 }
