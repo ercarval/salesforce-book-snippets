@@ -18,8 +18,18 @@ public class OrderItemRepository extends AbstractRepository {
 
         }
 
+        save (orderItems);
+
+        return orderItems;
+    }
+
+
+    virtual
+    public List<OrderItem> save ( List<OrderItem> orderItems ) {
+
         save (orderItems, ORDER_ITEM_EXTERNAL_ID);
 
         return orderItems;
     }
+
 }

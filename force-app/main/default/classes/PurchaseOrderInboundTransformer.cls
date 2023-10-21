@@ -39,7 +39,57 @@ public class PurchaseOrderInboundTransformer {
 
         List<OrderItem> items = new List<OrderItem>();
 
+        for (PurchaseOrderInboundRequest.PurchaseItem item : purchaseOrder.items ) {
+
+            OrderItem orderItem = new OrderItem ();
+
+            orderItem.Order = new Order (
+                ErpCode__c = purchaseOrder.purchaseOrderNumber
+            );
+
+            // parte do código foi omitida
+            items.add (orderItem);
+
+        }
+
         return items;
+    }
+
+
+    public List<OrderSubItem__c> toOrderSubItems (PurchaseOrderInboundRequest purchaseOrder) {
+
+        List<OrderSubItem__c> items = new List<OrderSubItem__c>();
+
+        for (PurchaseOrderInboundRequest.PurchaseItem item : purchaseOrder.items ) {
+
+            items.addAll ( toOrderSubItems (purchaseOrder, item) );
+
+        }
+
+        return items;
+    }
+
+    public List<OrderSubItem__c> toOrderSubItems ( PurchaseOrderInboundRequest purchaseOrder
+                                                    , PurchaseOrderInboundRequest.PurchaseItem item ) {
+
+        List<OrderSubItem__c> items = new List<OrderSubItem__c>();
+
+        for (PurchaseOrderInboundRequest.PurchaseSubItem sub : item.subItems) {
+
+            OrderSubItem__c subItem = new OrderSubItem__c ();
+
+            subItem.Order__r = new Order (
+                ErpCode__c = purchaseOrder.purchaseOrderNumber
+            );
+
+            subItem.OrderItemExternalId__c = purchaseOrder.purchaseOrderNumber + '_' + item.itemNumber;
+
+            items.add (subItem);
+
+        }
+        
+        return items;
+        
     }
 
 }
