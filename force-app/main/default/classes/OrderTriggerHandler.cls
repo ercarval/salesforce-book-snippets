@@ -13,6 +13,7 @@ public without sharing class OrderTriggerHandler extends TriggerHandler {
     
     OrderApprovalEnricher orderApprovalEnricher;
     
+    AsyncOrderOutboundService outboundService;
 
     public OrderTriggerHandler() {
         this (  (List<Order> ) Trigger.new
@@ -46,6 +47,13 @@ public without sharing class OrderTriggerHandler extends TriggerHandler {
         this.sendToApproval ();
 
     }
+
+    override    
+    public void afterUpdate () {
+
+        sendOrderOutbound();
+
+    }
     
     private void enrichWithApprovers () {
 
@@ -61,6 +69,17 @@ public without sharing class OrderTriggerHandler extends TriggerHandler {
 
         approvalService.sendToApproval ( orders ); 
     
+    }
+
+
+    void sendOrderOutbound () {
+        
+        List<Order> approvedOrders = this.filter.byChangedStatus ( newOrders
+                                                                 , oldOrders
+                                                                 ,'Approved');
+        
+        outboundService.send ( approvedOrders );
+
     }
 
 }

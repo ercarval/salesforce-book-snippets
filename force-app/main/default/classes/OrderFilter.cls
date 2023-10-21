@@ -7,4 +7,10 @@ public class OrderFilter {
         return orders;
     }
 
+    public List<Order> byChangedStatus ( List<Order> newOrders
+                                        , Map<Id, Order> oldOrders
+                                        , String status ) {
+        return newOrders;
+    }
+
 }
