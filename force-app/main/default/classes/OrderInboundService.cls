@@ -27,14 +27,16 @@ public class OrderInboundService {
 
         Order order;
 
+        SavePoint savePoint = Database.setSavePoint();
+
         try {
-
+        
             order = transformer.toOrder(purchaseOrder);
-
+        
             List<OrderItem> orderItems = transformer.toOrderItems( purchaseOrder );
-
+        
             List<OrderSubItem__c> orderSubItems = transformer.toOrderSubItems( purchaseOrder );
-
+        
             this.orderRepository.save(order);
             this.orderItemRepository.save (orderItems);
             this.orderSubItemRepository.save (orderSubItems);
@@ -43,16 +45,20 @@ public class OrderInboundService {
                 
         } catch (DmlException e) {
             
+            Database.rollback(savePoint);
+            
             log (purchaseOrder, e);  
-
+        
             throw e;
             
         } catch (Exception e) {        
-
+        
+            Database.rollback(savePoint);
+            
             log (purchaseOrder, e);  
-
+        
             throw e;
-
+        
         }
 
         return new PurchaseOrderInboundResponse( order.Id );    
