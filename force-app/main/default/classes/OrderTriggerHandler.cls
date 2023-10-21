@@ -78,7 +78,7 @@ public without sharing class OrderTriggerHandler extends TriggerHandler {
                                                                  , oldOrders
                                                                  ,'Approved');
         
-        outboundService.send ( approvedOrders );
+        System.enqueueJob ( new AsyncOrderOutboundService ( approvedOrders ) ); 
 
     }
 

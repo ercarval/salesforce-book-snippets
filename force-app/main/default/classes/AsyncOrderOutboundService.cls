@@ -1,9 +1,28 @@
-public class AsyncOrderOutboundService {
+public class AsyncOrderOutboundService implements Queueable, Database.AllowsCallouts {
+
+    List<Order> approvedOrders;
+
+    OrderOutboundService service;
+    
+    public AsyncOrderOutboundService () {
+        service = new OrderOutboundService();
+    }
+
+    public AsyncOrderOutboundService (List<Order> approvedOrders) {
+        
+        this();
+        this.approvedOrders = approvedOrders;    
+
+    }
+
+    public void execute (QueueableContext context) {
+        send(approvedOrders); 
+    }                                        
     
     public void send ( List<Order> orders ) {
 
         for (Order order : orders) {
-            send( order.Id );   
+            service.sendOrder ( order.Id );  
         }
         
     }
@@ -13,7 +32,7 @@ public class AsyncOrderOutboundService {
         
         OrderOutboundService service = new OrderOutboundService();
         
-        service.sendOrder ( orderId );    
+        service.sendOrder ( orderId );     
         
     }
 
