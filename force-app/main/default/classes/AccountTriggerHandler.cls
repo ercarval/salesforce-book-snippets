@@ -39,8 +39,14 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
     override
     public void afterInsert() {
         scheduleFirstAdvisorMeeting();
+        log ('Account Trigger after insert assíncrono');    
     }
     
+    override
+    public void afterUpdate() {
+        log ('Account Trigger after Update assíncrono');    
+    }
+
     private void validate () {
         this.validator.validate (this.newAccounts);    
     }
@@ -51,4 +57,11 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
                                     this.newAccounts);
     }
     
+    void log (String message) {
+
+        AsyncLogger.log ( message
+                   , JSON.serialize ( this.newAccounts ) );
+
+    }
+
 }
