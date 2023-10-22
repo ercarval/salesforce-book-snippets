@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public class OrderItemRepository extends AbstractRepository {
+public virtual class OrderItemRepository extends AbstractRepository {
 
     Schema.SObjectField ORDER_ITEM_EXTERNAL_ID = Schema.OrderItem.ErpCode__c.getDescribe().getSObjectField();
 

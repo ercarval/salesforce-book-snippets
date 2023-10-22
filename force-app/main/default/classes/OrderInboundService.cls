@@ -92,4 +92,16 @@ public class OrderInboundService {
 
     }
 
+    public void setOrderRepository ( OrderRepository orderRepository ) {
+        this.orderRepository = orderRepository;
+    }
+
+    public void setOrderItemRepository ( OrderItemRepository orderItemRepository ) {
+        this.orderItemRepository = orderItemRepository;
+    }
+
+    public void setOrderSubItemRepository ( OrderSubItemRepository orderSubItemRepository ) {
+        this.orderSubItemRepository = orderSubItemRepository;
+    }
+
 }
