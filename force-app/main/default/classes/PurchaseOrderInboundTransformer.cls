@@ -20,24 +20,34 @@ public class PurchaseOrderInboundTransformer {
         
         PurchaseOrderInboundRequest.Address billingAddress = purchaseOrder.billingAddress;
 
-        order.BillingStreet = billingAddress.street;
-        order.BillingCity = billingAddress.city;
-        order.BillingState = billingAddress.state;
-        order.BillingPostalCode = billingAddress.postalCode;
+        if (billingAddress != null) {
 
+            order.BillingStreet = billingAddress.street;
+            order.BillingCity = billingAddress.city;
+            order.BillingState = billingAddress.state;
+            order.BillingPostalCode = billingAddress.postalCode;
+    
+        }
+
+        
         PurchaseOrderInboundRequest.Address shippingAddress = purchaseOrder.shippingAddress;
 
-        order.ShippingStreet = shippingAddress.street;
-        order.ShippingCity = shippingAddress.city;
-        order.ShippingState = shippingAddress.state;
-        order.ShippingPostalCode = shippingAddress.postalCode;
+        if (shippingAddress != null) { 
 
+            order.ShippingStreet = shippingAddress.street;
+            order.ShippingCity = shippingAddress.city;
+            order.ShippingState = shippingAddress.state;
+            order.ShippingPostalCode = shippingAddress.postalCode;
+        }
+        
         return order;
     }
 
     public List<OrderItem> toOrderItems (PurchaseOrderInboundRequest purchaseOrder) {
 
         List<OrderItem> items = new List<OrderItem>();
+
+        if ( purchaseOrder.items == null ) return items;
 
         for (PurchaseOrderInboundRequest.PurchaseItem item : purchaseOrder.items ) {
 
@@ -59,6 +69,8 @@ public class PurchaseOrderInboundTransformer {
     public List<OrderSubItem__c> toOrderSubItems (PurchaseOrderInboundRequest purchaseOrder) {
 
         List<OrderSubItem__c> items = new List<OrderSubItem__c>();
+
+        if ( purchaseOrder.items == null ) return items;
 
         for (PurchaseOrderInboundRequest.PurchaseItem item : purchaseOrder.items ) {
 

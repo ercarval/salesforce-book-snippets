@@ -5,12 +5,11 @@
 public class OrderRepositoryMock extends OrderRepository {
 
     override
-    public SObject save ( SObject record
-                        , Schema.SObjectField field ) {
+    public Order save ( Order order ) {
 
-        System.debug ('Mocked save record');
+        IdGenerator.generate(order);
                 
-        return record;
+        return order;
     } 
 
 }

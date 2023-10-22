@@ -7,7 +7,7 @@ public class OrderSubItemRepositoryMock extends OrderSubItemRepository {
     override
     public List<OrderSubItem__c> save ( List<OrderSubItem__c> orderSubItems ) {
         
-        System.debug ('Mocked save record');
+        IdGenerator.generate(orderSubItems);
                
         return orderSubItems;
     }
