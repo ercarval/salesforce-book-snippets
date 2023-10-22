@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public class PurchaseOrderInboundTransformer {
+public virtual class PurchaseOrderInboundTransformer {
         
     public Order toOrder ( PurchaseOrderInboundRequest purchaseOrder ) {
         
@@ -113,7 +113,6 @@ public class PurchaseOrderInboundTransformer {
         );
     }
 
-
     public IntegrationLog__c toLog ( PurchaseOrderInboundRequest purchaseOrder 
                                     , DmlException dmlException ) {
 
@@ -121,7 +120,7 @@ public class PurchaseOrderInboundTransformer {
             Event__c = 'PURCHASE_ORDER_INBOUND',
             InternalId__c = purchaseOrder.purchaseOrderNumber,
             Status__c = 'ERROR',
-            StatusMessage__c = dmlException.getDmlMessage(0), 
+            StatusMessage__c = getDmlExceptionMessage ( dmlException ), 
             Message__c = dmlException.getStackTraceString()
         );
     }
@@ -137,6 +136,11 @@ public class PurchaseOrderInboundTransformer {
             StatusMessage__c = ex.getMessage(), 
             Message__c = ex.getStackTraceString()
         );
+    }
+
+    virtual
+    public String getDmlExceptionMessage ( DmlException dmlException ) {
+        return dmlException.getDmlMessage(0);
     }
 
 }

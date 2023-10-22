@@ -104,4 +104,8 @@ public class OrderInboundService {
         this.orderSubItemRepository = orderSubItemRepository;
     }
 
+    public void setPurchaseOrderInboundTransformer ( PurchaseOrderInboundTransformer transformer ) {
+        this.transformer = transformer;
+    }
+
 }
