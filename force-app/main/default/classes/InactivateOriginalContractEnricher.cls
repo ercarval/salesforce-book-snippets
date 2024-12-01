@@ -4,59 +4,47 @@
 public class InactivateOriginalContractEnricher {
 
     ContractRepository repository;
-    
+
     ContractFilter filter;
 
-    public InactivateOriginalContractEnricher () {
-        this.repository = new ContractRepository ();
-        this.filter = new ContractFilter ();
-    }    
+    public InactivateOriginalContractEnricher() {
+
+        repository = new ContractRepository();
+        filter = new ContractFilter ();
+
+    }
     
     public List<Contract> inactivatedBy ( List<Contract> assignedContracts ) {
             
         List<Contract> originalContracts = findOriginalContracts ( assignedContracts );
         
-        if (originalContracts.isEmpty()) {
-            return new List<Contract> ();
-        } 
+        if (originalContracts.isEmpty()) return new List<Contract> ();
+        
+        Map<Id, Contract> indexedOriginalContracts = new Map<Id, Contract> (originalContracts);
+        
+        for (Contract assignedContract : assignedContracts ) {
+        
+            Contract originalContract =  indexedOriginalContracts.get ( assignedContract.OriginalContract__c);
 
-        List<Contract> inactivatedContracts = inactivateOriginalContracts ( originalContracts
-                                          , assignedContracts );
+            originalContract.Status = 'Inative';
 
-        return repository.save ( inactivatedContracts );                        
+        }
+
+        return repository.save ( originalContracts );                        
  
     }
 
-    private List<Contract> findOriginalContracts (
-                          List<Contract> assignedContracts ) {
+
+    List<Contract> findOriginalContracts ( List<Contract> assignedContracts ) {
             
-        List<String> originalContractIds = 
-                        filter.extractOriginalContractIds ( assignedContracts );
+        List<String> originalContractIds = Lists.pullField( assignedContracts, 'OriginalContract__c' );
     
         return repository.findByIds ( originalContractIds );
 
     }
 
-    private List<Contract> inactivateOriginalContracts (
-                       List<Contract> originalContracts,
-                       List<Contract> assignedContracts ) {
-        
-        
-        Map<Id, Contract> indexedOriginalContracts = 
-                      this.filter.indexById (originalContracts);
-        
-        for (Contract assignedContract : assignedContracts ) {
-        
-            Contract originalContract = 
-                    indexedOriginalContracts.get (
-                        assignedContract.OriginalContract__c);
-
-            originalContract.Status = 'Inativado';
-
-        }
-
-        return originalContracts;
-        
+    public void setRepository (ContractRepository repository) {
+        this.repository = repository;
     }
-    
+
 }

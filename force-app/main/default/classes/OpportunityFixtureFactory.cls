@@ -1,6 +1,22 @@
 @isTest
 public class OpportunityFixtureFactory {
 
+
+    public static List<Opportunity> newOpenOppotunities ( List<Account> accounts, Integer numberOfOpportunities ) {
+
+        List<Opportunity> opportunities = new List<Opportunity> ();
+
+        for ( Account account : accounts  ) {
+            for ( Integer i = 0; i < numberOfOpportunities; i++) {
+                opportunities.add ( newOpportunity(account,  new Pricebook2 ( Id = Test.getStandardPricebookId())));
+            }
+
+        }
+
+        return opportunities;
+    }
+
+
     public static Opportunity newOpportunity(
                                 Account account,
                                 Pricebook2 pricebook ) {

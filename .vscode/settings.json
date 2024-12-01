@@ -6,15 +6,16 @@
   },
     "cSpell.language": "en,pt,pt-BR",
     "cSpell.words": [
-        "automágicamente",
-        "Callout",
-        "identando",
-        "identar",
-        "Miyagi",
-        "NOSQL",
-        "Poupanca",
-        "SOQL",
-        "struture"
+      "automágicamente",
+      "Callout",
+      "groupp",
+      "identando",
+      "identar",
+      "Miyagi",
+      "NOSQL",
+      "Poupanca",
+      "SOQL",
+      "struture"
     ],
     "salesforcedx-vscode-core.show-cli-success-msg": false
 }

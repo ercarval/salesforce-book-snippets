@@ -1,9 +1,6 @@
 /**
- * 
  * Based on https://salesforce.stackexchange.com/questions/1653/what-are-salesforce-ids-composed-of
  * Credits for https://www.gammone.com/programmazione/come-convertire-id-salesforce-da-15-a-18-caratteri
- * 
- * @author ercarval - topi/brq
  */
 @isTest
 public class IdGenerator {
@@ -44,10 +41,11 @@ public class IdGenerator {
         String prefix = objectPrefix + UserInfo.getUserId()
                                         .substring(PREFIX_LENGTH, ORG_INSTANCE_RESERVED_LENGTH)
                                          + '00000';
-
         String id = prefix + buildRandom() + (++sequence);
 
-		return appendSufix(id);
+        if (sequence == 9) sequence = 0;
+
+		return appendSuffix(id);
 
     }
 
@@ -64,7 +62,7 @@ public class IdGenerator {
 
     }
 
-    private static String appendSufix (String id) {
+    private static String appendSuffix (String id) {
 
         String suffix = '';
         String baseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ012345';
