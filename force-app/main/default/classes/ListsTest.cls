@@ -1,5 +1,5 @@
 /**
- * @author ercarval - topi/brq
+ * @author ercarval
  */
 @isTest
 public class ListsTest {

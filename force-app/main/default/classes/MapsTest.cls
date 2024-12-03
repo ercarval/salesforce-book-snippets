@@ -1,5 +1,5 @@
 /**
- * @author ercarval - topi/brq
+ * @author eduardo.bisso - dev-builder
  */
 @isTest
 public class MapsTest {
